@@ -188,6 +188,9 @@ class RenderJsonTest < ActionController::TestCase
       render :json => [], :serializer => CustomArraySerializer
     end
 
+    def render_json_array_with_metas
+      render json: [], meta: {page: 2}
+    end
 
   private
     def default_serializer_options
@@ -393,4 +396,8 @@ class RenderJsonTest < ActionController::TestCase
     assert_equal '{"items":[]}', @response.body
   end
 
+  def test_render_json_array_with_default_and_optional_meta
+    get :render_json_array_with_metas, check_default_meta: true
+    assert_equal '{"test":[],"meta":{"version":1,"page":2}}', @response.body
+  end
 end
